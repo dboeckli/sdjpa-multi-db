@@ -24,10 +24,21 @@ spring:
         format_sql: true
 
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: cardholderuser
-    password: password
+    cardholder:
+      datasource:
+        url: jdbc:mysql://127.0.0.1:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+        username: sa
+        password: password
+    card:
+      datasource:
+        url: jdbc:mysql://127.0.0.1:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+        username: sa
+        password: password
+    pan:
+      datasource:
+        url: jdbc:mysql://127.0.0.1:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+        username: sa
+        password: password
 
   flyway:
     enabled: true

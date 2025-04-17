@@ -10,9 +10,21 @@ spring:
 
   datasource:
     # we are using the h2 in compatible mode with mysql
-    url: jdbc:h2:mem:sdjpa-multi-db-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
-    username: sa
-    password: password
+    cardholder:
+      datasource:
+        url: jdbc:h2:mem:cardholderdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+        username: sa
+        password: password
+    card:
+      datasource:
+        url: jdbc:h2:mem:carddb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+        username: sa
+        password: password
+    pan:
+      datasource:
+        url: jdbc:h2:mem:pandb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+        username: sa
+        password: password
 
   sql:
     init:
