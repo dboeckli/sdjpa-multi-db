@@ -19,11 +19,6 @@ class CreditCardServiceImplIT {
     CreditCardService creditCardService;
 
     @Test
-    void getCreditCardById() {
-        // TODO: Implement test case
-    }
-
-    @Test
     void saveCreditCard() {
         CreditCard cc = CreditCard.builder()
             .firstName("John")
@@ -39,5 +34,11 @@ class CreditCardServiceImplIT {
         assertThat(savedCC).isNotNull();
         assertThat(savedCC.getId()).isNotNull();
         assertThat(savedCC.getCreditCardNumber()).isNotNull();
+
+        CreditCard fetchedCreditCard = creditCardService.getCreditCardById(savedCC.getId());
+
+        assertThat(fetchedCreditCard).isNotNull();
+        assertThat(fetchedCreditCard.getId()).isNotNull();
+        assertThat(fetchedCreditCard.getCreditCardNumber()).isNotNull();
     }
 }

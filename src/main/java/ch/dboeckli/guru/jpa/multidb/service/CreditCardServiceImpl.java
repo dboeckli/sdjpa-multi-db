@@ -16,12 +16,21 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     private final CreditCardHolderRepository creditCardHolderRepository;
     private final CreditCardRepository creditCardRepository;
-    private final CreditCardPanRepository creditCardPANRepository;
+    private final CreditCardPanRepository creditCardPanRepository;
 
     @Override
+    @Transactional
     public CreditCard getCreditCardById(Long id) {
-        // TODO: Implement logic to retrieve credit card from the respective database based on the given ID
-        return null;
+        CreditCard creditCard = creditCardRepository.findById(id).orElseThrow();
+        CreditCardHolder creditCardHolder = creditCardHolderRepository.findByCreditCardId(id).orElseThrow();
+        CreditCardPan creditCardPan = creditCardPanRepository.findByCreditCardId(id).orElseThrow();
+
+        creditCard.setFirstName(creditCardHolder.getFirstName());
+        creditCard.setLastName(creditCardHolder.getLastName());
+        creditCard.setZipCode(creditCard.getZipCode());
+        creditCard.setCreditCardNumber(creditCardPan.getCreditCardNumber());
+
+        return creditCard;
     }
 
     @Override
@@ -40,7 +49,7 @@ public class CreditCardServiceImpl implements CreditCardService {
             .zipCode(savedCC.getZipCode())
             .build());
 
-        creditCardPANRepository.save(CreditCardPan.builder()
+        creditCardPanRepository.save(CreditCardPan.builder()
             .creditCardNumber(savedCC.getCreditCardNumber())
             .creditCardId(savedCC.getId())
             .build());
