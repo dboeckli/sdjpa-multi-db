@@ -10,20 +10,19 @@ spring:
 
   datasource:
     cardholder:
-      datasource:
-        url: jdbc:h2:mem:cardholderdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-        username: sa
-        password: password
+      url: jdbc:h2:mem:cardholderdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      username: sa
+      password: password
+
     card:
-      datasource:
-        url: jdbc:h2:mem:carddb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-        username: sa
-        password: password
+      url: jdbc:h2:mem:carddb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      username: sa
+      password: password
+
     pan:
-      datasource:
-        url: jdbc:h2:mem:pandb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-        username: sa
-        password: password
+      url: jdbc:h2:mem:pandb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      username: sa
+      password: password
 
   sql:
     init:

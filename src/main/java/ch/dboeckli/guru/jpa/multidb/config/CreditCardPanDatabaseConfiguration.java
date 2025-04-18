@@ -25,7 +25,7 @@ import javax.sql.DataSource;
 public class CreditCardPanDatabaseConfiguration {
     @Bean
     @Primary
-    @ConfigurationProperties("spring.pan.datasource")
+    @ConfigurationProperties("spring.datasource.pan")
     public DataSourceProperties panDataSourceProperties() {
         return new DataSourceProperties();
     }

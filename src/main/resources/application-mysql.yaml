@@ -25,26 +25,37 @@ spring:
 
   datasource:
     cardholder:
-      datasource:
-        url: jdbc:mysql://127.0.0.1:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
-        username: sa
-        password: password
+      url: jdbc:mysql://127.0.0.1:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      username: cardholderuser
+      password: password
+
     card:
-      datasource:
-        url: jdbc:mysql://127.0.0.1:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
-        username: sa
-        password: password
+      url: jdbc:mysql://127.0.0.1:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      username: carduser
+      password: password
+
     pan:
-      datasource:
-        url: jdbc:mysql://127.0.0.1:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
-        username: sa
-        password: password
+      url: jdbc:mysql://127.0.0.1:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      username: panuser
+      password: password
 
   flyway:
     enabled: true
-    user: cardholderadmin
-    password: password
-
+    cardholder:
+      username: cardholderadmin
+      password: password
+      url: jdbc:mysql://localhost:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKey
+      locations: classpath:/db/migration/cardholder
+    card:
+      username: cardadmin
+      password: password
+      url: jdbc:mysql://localhost:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKey
+      locations: classpath:/db/migration/creditcard
+    pan:
+      username: panadmin
+      password: password
+      url: jdbc:mysql://localhost:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKey
+      locations: classpath:/db/migration/pan
 management:
   health:
     readinessstate:

@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 public class CreditCardHolderDatabaseConfiguration {
 
     @Bean
-    @ConfigurationProperties("spring.cardholder.datasource")
+    @ConfigurationProperties("spring.datasource.cardholder")
     public DataSourceProperties cardHolderDataSourceProperties(){
         return new DataSourceProperties();
     }

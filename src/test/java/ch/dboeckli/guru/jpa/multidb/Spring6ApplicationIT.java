@@ -1,7 +1,6 @@
 package ch.dboeckli.guru.jpa.multidb;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(useMainMethod = SpringBootTest.UseMainMethod.ALWAYS)
 @ActiveProfiles("test_mysql")
-@Disabled("not implemented yet")
 @Slf4j
 class Spring6ApplicationIT {
 
