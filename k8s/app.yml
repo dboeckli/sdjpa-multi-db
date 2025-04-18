@@ -42,12 +42,12 @@ spec:
               value: |
                 {
                   "management.endpoint.health.probes.add-additional-paths": true,
-                  "spring.cardholder.datasource.url": "jdbc:mysql://mysql:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
-                  "spring.cardholder.flyway.url": "jdbc:mysql://mysql:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
-                  "spring.card.datasource.url": "jdbc:mysql://mysql:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
-                  "spring.card.flyway.url": "jdbc:mysql://mysql:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
-                  "spring.pan.datasource.url": "jdbc:mysql://mysql:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
-                  "spring.pan.flyway.url": "jdbc:mysql://mysql:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
+                  "spring.datasource.cardholder.url": "jdbc:mysql://mysql:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
+                  "spring.flyway.cardholder.url": "jdbc:mysql://mysql:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
+                  "spring.datasource.card.url": "jdbc:mysql://mysql:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
+                  "spring.flyway.card.url": "jdbc:mysql://mysql:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
+                  "spring.datasource.pan.url": "jdbc:mysql://mysql:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
+                  "spring.flyway.pan.url": "jdbc:mysql://mysql:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
                 }
           ports:
             - name: http
