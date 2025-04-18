@@ -22,4 +22,6 @@ public class CreditCardHolder {
     private String lastName;
 
     private String zipCode;
+
+    private Long creditCardId;
 }
