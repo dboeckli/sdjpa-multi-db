@@ -27,15 +27,38 @@ spring:
 
   flyway:
     enabled: true
-    user: cardholderadmin
-    password: password
-    url: jdbc:mysql://localhost:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKey
+    cardholder:
+      username: cardholderadmin
+      password: password
+      url: jdbc:mysql://localhost:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKey
+      locations: classpath:/db/migration/cardholder
+    card:
+      username: cardadmin
+      password: password
+      url: jdbc:mysql://localhost:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKey
+      locations: classpath:/db/migration/creditcard
+    pan:
+      username: panadmin
+      password: password
+      url: jdbc:mysql://localhost:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKey
+      locations: classpath:/db/migration/pan
 
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: cardholderuser
-    password: password
+    cardholder:
+      url: jdbc:mysql://127.0.0.1:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      username: cardholderuser
+      password: password
+
+    card:
+      url: jdbc:mysql://127.0.0.1:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      username: carduser
+      password: password
+
+    pan:
+      url: jdbc:mysql://127.0.0.1:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      username: panuser
+      password: password
+
 
 management:
   health:
