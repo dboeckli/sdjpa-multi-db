@@ -1,6 +1,7 @@
 package ch.dboeckli.guru.jpa.multidb.config;
 
 import ch.dboeckli.guru.jpa.multidb.domain.pan.CreditCardPan;
+import ch.dboeckli.guru.jpa.multidb.repository.pan.CreditCardPanRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -9,6 +10,7 @@ import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -16,7 +18,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-public class PanDatabaseConfiguration {
+@EnableJpaRepositories(
+    basePackageClasses = CreditCardPanRepository.class,
+    entityManagerFactoryRef = "entityManagerFactory",
+    transactionManagerRef = "panTransactionManager")
+public class CreditCardPanDatabaseConfiguration {
     @Bean
     @Primary
     @ConfigurationProperties("spring.pan.datasource")
