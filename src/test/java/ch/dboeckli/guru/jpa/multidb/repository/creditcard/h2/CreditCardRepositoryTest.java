@@ -20,9 +20,9 @@ class CreditCardRepositoryTest {
     @Test
     @Transactional
     void testSaveAndStoreCreditCard() {
-        CreditCard savedCC = DataHelper.createAndSaveCreditCard(creditCardRepository);
-        CreditCard fetchedCC = creditCardRepository.findById(savedCC.getId()).orElseThrow(() -> new AssertionError("Credit card not found"));
+        CreditCard saved = DataHelper.createAndSaveCreditCard(creditCardRepository);
+        CreditCard fetched = creditCardRepository.findById(saved.getId()).orElseThrow(() -> new AssertionError("Credit card not found"));
 
-        assertThat(savedCC.getCvv()).isEqualTo(fetchedCC.getCvv());
+        assertThat(saved.getCvv()).isEqualTo(fetched.getCvv());
     }
 }
