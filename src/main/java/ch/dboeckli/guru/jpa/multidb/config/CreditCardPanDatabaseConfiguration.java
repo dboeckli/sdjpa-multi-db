@@ -32,6 +32,7 @@ public class CreditCardPanDatabaseConfiguration {
 
     @Primary
     @Bean
+    @ConfigurationProperties("spring.datasource.pan.hikari")
     public DataSource panDataSource(@Qualifier("panDataSourceProperties") DataSourceProperties panDataSourceProperties){
         return panDataSourceProperties.initializeDataSourceBuilder()
             .type(HikariDataSource.class)
