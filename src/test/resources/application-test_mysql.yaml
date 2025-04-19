@@ -48,16 +48,22 @@ spring:
       url: jdbc:mysql://127.0.0.1:3306/cardholderdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
       username: cardholderuser
       password: password
+      hikari:
+        poolName: MyHikariPool-Cardholder
 
     card:
       url: jdbc:mysql://127.0.0.1:3306/carddb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
       username: carduser
       password: password
+      hikari:
+        poolName: MyHikariPool-Card
 
     pan:
       url: jdbc:mysql://127.0.0.1:3306/pandb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
       username: panuser
       password: password
+      hikari:
+        poolName: MyHikariPool-Pan
 
 
 management:

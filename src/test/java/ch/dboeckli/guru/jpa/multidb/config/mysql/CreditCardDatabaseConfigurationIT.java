@@ -23,7 +23,8 @@ class CreditCardDatabaseConfigurationIT {
         String[] requiredProperties = {
             "spring.datasource.card.url",
             "spring.datasource.card.username",
-            "spring.datasource.card.password"
+            "spring.datasource.card.password",
+            "spring.datasource.card.hikari.poolName"
         };
 
         for (String property : requiredProperties) {
@@ -37,7 +38,8 @@ class CreditCardDatabaseConfigurationIT {
         String[] requiredProperties = {
             "spring.datasource.card.url",
             "spring.datasource.card.username",
-            "spring.datasource.card.password"
+            "spring.datasource.card.password",
+            "spring.datasource.card.hikari.poolName"
         };
 
         for (String property : requiredProperties) {

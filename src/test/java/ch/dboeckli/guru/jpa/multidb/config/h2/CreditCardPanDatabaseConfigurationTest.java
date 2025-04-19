@@ -21,7 +21,8 @@ class CreditCardPanDatabaseConfigurationTest {
         String[] requiredProperties = {
             "spring.datasource.pan.url",
             "spring.datasource.pan.username",
-            "spring.datasource.pan.password"
+            "spring.datasource.pan.password",
+            "spring.datasource.pan.hikari.poolName"
         };
 
         for (String property : requiredProperties) {
@@ -35,7 +36,8 @@ class CreditCardPanDatabaseConfigurationTest {
         String[] requiredProperties = {
             "spring.datasource.pan.url",
             "spring.datasource.pan.username",
-            "spring.datasource.pan.password"
+            "spring.datasource.pan.password",
+            "spring.datasource.pan.hikari.poolName"
         };
 
         for (String property : requiredProperties) {

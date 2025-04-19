@@ -2,6 +2,16 @@
 
 This repository contains source code examples to support my course Spring Data JPA and Hibernate Beginner to Guru
 
+## Multi-Database Configuration
+
+This project is configured to work with three separate databases:
+
+1. Credit Card Holder Database
+2. Credit Card PAN (Primary Account Number) Database
+3. Credit Card Transaction Database
+
+Each database is configured independently, allowing for separate connection details, migration scripts, and entity management.
+
 ## Flyway
 
 To enable Flyway in the MySQL profile, override the following properties when starting the application:

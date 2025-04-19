@@ -17,4 +17,6 @@ public class CreditCardPan {
 
     @Convert(converter = CreditCardConverter.class)
     private String creditCardNumber;
+
+    private Long creditCardId;
 }

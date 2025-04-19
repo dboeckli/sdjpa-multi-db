@@ -29,7 +29,9 @@ public class CreditCardDatabaseConfiguration {
         return new DataSourceProperties();
     }
 
+
     @Bean
+    @ConfigurationProperties("spring.datasource.card.hikari")
     public DataSource cardDataSource(@Qualifier("cardDataSourceProperties") DataSourceProperties cardDataSourceProperties){
         return cardDataSourceProperties.initializeDataSourceBuilder()
             .type(HikariDataSource.class)

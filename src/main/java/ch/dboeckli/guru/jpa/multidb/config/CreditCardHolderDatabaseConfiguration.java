@@ -30,6 +30,7 @@ public class CreditCardHolderDatabaseConfiguration {
     }
 
     @Bean
+    @ConfigurationProperties("spring.datasource.cardholder.hikari")
     public DataSource cardholderDataSource(@Qualifier("cardHolderDataSourceProperties") DataSourceProperties cardHolderDataSourceProperties){
         return cardHolderDataSourceProperties.initializeDataSourceBuilder()
             .type(HikariDataSource.class)

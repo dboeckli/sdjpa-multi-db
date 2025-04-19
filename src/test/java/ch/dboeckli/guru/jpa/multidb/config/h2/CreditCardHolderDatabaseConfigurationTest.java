@@ -21,7 +21,8 @@ class CreditCardHolderDatabaseConfigurationTest {
         String[] requiredProperties = {
             "spring.datasource.cardholder.url",
             "spring.datasource.cardholder.username",
-            "spring.datasource.cardholder.password"
+            "spring.datasource.cardholder.password",
+            "spring.datasource.cardholder.hikari.poolName"
         };
 
         for (String property : requiredProperties) {
@@ -35,7 +36,8 @@ class CreditCardHolderDatabaseConfigurationTest {
         String[] requiredProperties = {
             "spring.datasource.cardholder.url",
             "spring.datasource.cardholder.username",
-            "spring.datasource.cardholder.password"
+            "spring.datasource.cardholder.password",
+            "spring.datasource.cardholder.hikari.poolName"
         };
 
         for (String property : requiredProperties) {
