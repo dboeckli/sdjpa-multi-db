@@ -1,38 +1,44 @@
-# ... [Header bleibt gleich] ...
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "sdjpa-multi-db-mysql.fullname" . }}-mysql-init
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "sdjpa-multi-db-mysql.labels" . | nindent 4 }}
 data:
   init.sql: |-
     -- cardholder database
-    DROP DATABASE IF EXISTS cardholderdb;
+    DROP DATABASE IF EXISTS {{ .Values.mysql.cardholderdb.name }};
     DROP USER IF EXISTS `${CARDHOLDER_ADMIN_USER}`@`%`;
     DROP USER IF EXISTS `${CARDHOLDER_USER}`@`%`;
-    CREATE DATABASE IF NOT EXISTS cardholderdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.cardholderdb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
     CREATE USER IF NOT EXISTS `${CARDHOLDER_ADMIN_USER}`@`%` IDENTIFIED BY '${CARDHOLDER_ADMIN_PASSWORD}';
     GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
-      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `cardholderdb`.* TO `${CARDHOLDER_ADMIN_USER}`@`%`;
+      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.cardholderdb.name }}.* TO `${CARDHOLDER_ADMIN_USER}`@`%`;
     CREATE USER IF NOT EXISTS `${CARDHOLDER_USER}`@`%` IDENTIFIED BY '${CARDHOLDER_USER_PASSWORD}';
-    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON `cardholderdb`.* TO `${CARDHOLDER_USER}`@`%`;
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.cardholderdb.name }}.* TO `${CARDHOLDER_USER}`@`%`;
     FLUSH PRIVILEGES;
 
     -- card database
-    DROP DATABASE IF EXISTS carddb;
+    DROP DATABASE IF EXISTS {{ .Values.mysql.carddb.name }};
     DROP USER IF EXISTS `${CARD_ADMIN_USER}`@`%`;
     DROP USER IF EXISTS `${CARD_USER}`@`%`;
-    CREATE DATABASE IF NOT EXISTS carddb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.carddb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
     CREATE USER IF NOT EXISTS `${CARD_ADMIN_USER}`@`%` IDENTIFIED BY '${CARD_ADMIN_PASSWORD}';
     GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
-      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `carddb`.* TO `${CARD_ADMIN_USER}`@`%`;
+      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.carddb.name }}.* TO `${CARD_ADMIN_USER}`@`%`;
     CREATE USER IF NOT EXISTS `${CARD_USER}`@`%` IDENTIFIED BY '${CARD_USER_PASSWORD}';
-    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON `carddb`.* TO `${CARD_USER}`@`%`;
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.carddb.name }}.* TO `${CARD_USER}`@`%`;
     FLUSH PRIVILEGES;
 
     -- pan database
-    DROP DATABASE IF EXISTS pandb;
+    DROP DATABASE IF EXISTS {{ .Values.mysql.pandb.name }};
     DROP USER IF EXISTS `${PAN_ADMIN_USER}`@`%`;
     DROP USER IF EXISTS `${PAN_USER}`@`%`;
-    CREATE DATABASE IF NOT EXISTS pandb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.pandb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
     CREATE USER IF NOT EXISTS `${PAN_ADMIN_USER}`@`%` IDENTIFIED BY '${PAN_ADMIN_PASSWORD}';
     GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
-      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `pandb`.* TO `${PAN_ADMIN_USER}`@`%`;
+      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.pandb.name }}.* TO `${PAN_ADMIN_USER}`@`%`;
     CREATE USER IF NOT EXISTS `${PAN_USER}`@`%` IDENTIFIED BY '${PAN_USER_PASSWORD}';
-    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON `pandb`.* TO `${PAN_USER}`@`%`;
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.pandb.name }}.* TO `${PAN_USER}`@`%`;
     FLUSH PRIVILEGES;

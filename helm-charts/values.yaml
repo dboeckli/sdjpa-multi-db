@@ -42,13 +42,30 @@ probes:
     failureThreshold: 6
 
 mysql:
-  cardholderDatabase: cardholderdb
-  carDatabase: carddb
-  panDatabase: pandb
-
   port: 3306
   targetPort: 3306
   nodePort: 30306
+
+  cardholderdb:
+    name: cardholderdb
+    adminUser: cardholderadmin
+    adminPassword: password
+    user: cardholderuser
+    userPassword: password
+
+  carddb:
+    name: carddb
+    adminUser: cardadmin
+    adminPassword: password
+    user: carduser
+    userPassword: password
+
+  pandb:
+    name: pandb
+    adminUser: panadmin
+    adminPassword: password
+    user: panuser
+    userPassword: password
 
   serviceFQDN:
 

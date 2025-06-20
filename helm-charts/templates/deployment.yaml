@@ -33,18 +33,18 @@ spec:
             - name: SPRING_FLYWAY_ENABLED
               value: "true"
             - name: SPRING_DATASOURCE_CARDHOLDER_URL
-              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.cardholderDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.cardholderdb.name }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
             - name: SPRING_DATASOURCE_CARD_URL
-              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.carDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.carddb.name }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
             - name: SPRING_DATASOURCE_PAN_URL
-              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.panDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.pandb.name }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
 
             - name: SPRING_FLYWAY_CARDHOLDER_URL
-              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.cardholderDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.cardholderdb.name }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
             - name: SPRING_FLYWAY_CARD_URL
-              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.carDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.carddb.name }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
             - name: SPRING_FLYWAY_PAN_URL
-              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.panDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.pandb.name }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
 
             - name: SPRING_DATASOURCE_CARDHOLDER_USERNAME
               valueFrom:
