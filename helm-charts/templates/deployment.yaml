@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "application-template.fullname" . }}
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "application-template.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "application-template.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "application-template.selectorLabels" . | nindent 8 }}
+    spec:
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox:1.37.0
+          command: [ 'sh', '-c', 'until nc -z {{ default (printf "%s-sdjpa-multi-db-mysql.%s.svc.cluster.local" .Release.Name .Release.Namespace) .Values.mysql.serviceFQDN }} {{ .Values.mysql.port }}; do echo "[busybox: wait-for-mysql] waiting for mysql"; sleep 2; done; echo "[busybox: wait-for-mysql] mysql is available"' ]
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: JAVA_TIMEZONE
+              value: "{{ .Values.global.timezone }}"
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.spring.profiles.active | default "local" }}
+            - name: SPRING_LIQUIBASE_ENABLED
+              value: "false"
+            - name: SPRING_FLYWAY_ENABLED
+              value: "true"
+            - name: SPRING_DATASOURCE_CARDHOLDER_URL
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.cardholderDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+            - name: SPRING_DATASOURCE_CARD_URL
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.carDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+            - name: SPRING_DATASOURCE_PAN_URL
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.panDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+
+            - name: SPRING_FLYWAY_CARDHOLDER_URL
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.cardholderDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+            - name: SPRING_FLYWAY_CARD_URL
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.carDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+            - name: SPRING_FLYWAY_PAN_URL
+              value: jdbc:mysql://{{ .Release.Name }}-sdjpa-multi-db-mysql.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mysql.port }}/{{ .Values.mysql.panDatabase }}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+
+            - name: SPRING_DATASOURCE_CARDHOLDER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: CARDHOLDER_USER
+            - name: SPRING_DATASOURCE_CARDHOLDER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: CARDHOLDER_USER_PASSWORD
+            - name: SPRING_FLYWAY_CARDHOLDER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: CARDHOLDER_ADMIN_USER
+            - name: SPRING_FLYWAY_CARDHOLDER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: CARDHOLDER_ADMIN_PASSWORD
+
+            # Card DB settings
+            - name: SPRING_DATASOURCE_CARD_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: CARD_USER
+            - name: SPRING_DATASOURCE_CARD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: CARD_USER_PASSWORD
+            - name: SPRING_FLYWAY_CARD_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: CARD_ADMIN_USER
+            - name: SPRING_FLYWAY_CARD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: CARD_ADMIN_PASSWORD
+
+            # PAN DB settings
+            - name: SPRING_DATASOURCE_PAN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: PAN_USER
+            - name: SPRING_DATASOURCE_PAN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: PAN_USER_PASSWORD
+            - name: SPRING_FLYWAY_PAN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: PAN_ADMIN_USER
+            - name: SPRING_FLYWAY_PAN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+                  key: PAN_ADMIN_PASSWORD
+
+          envFrom:
+            - secretRef:
+                name: {{ include "application-template.fullname" . }}-spring-mysql-secrets
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
+          volumeMounts:
+            - mountPath: "{{ .Values.global.timezonePath }}"
+              name: time
+              readOnly: true
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: time
+          hostPath:
+            path: {{ .Values.global.timezonePath }}
+            type: ""
