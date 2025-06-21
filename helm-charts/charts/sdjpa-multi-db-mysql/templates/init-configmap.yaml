@@ -9,36 +9,36 @@ data:
   init.sql: |-
     -- cardholder database
     DROP DATABASE IF EXISTS {{ .Values.mysql.cardholderdb.name }};
-    DROP USER IF EXISTS `${CARDHOLDER_ADMIN_USER}`@`%`;
-    DROP USER IF EXISTS `${CARDHOLDER_USER}`@`%`;
+    DROP USER IF EXISTS '{{ .Values.mysql.cardholderdb.adminUser }}'@'%';
+    DROP USER IF EXISTS '{{ .Values.mysql.cardholderdb.user }}'@'%';
     CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.cardholderdb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-    CREATE USER IF NOT EXISTS `${CARDHOLDER_ADMIN_USER}`@`%` IDENTIFIED BY '${CARDHOLDER_ADMIN_PASSWORD}';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.cardholderdb.adminUser }}'@'%' IDENTIFIED BY '{{ .Values.mysql.cardholderdb.adminPassword }}';
     GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
-      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.cardholderdb.name }}.* TO `${CARDHOLDER_ADMIN_USER}`@`%`;
-    CREATE USER IF NOT EXISTS `${CARDHOLDER_USER}`@`%` IDENTIFIED BY '${CARDHOLDER_USER_PASSWORD}';
-    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.cardholderdb.name }}.* TO `${CARDHOLDER_USER}`@`%`;
+    CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.cardholderdb.name }}.* TO '{{ .Values.mysql.cardholderdb.adminUser }}'@'%';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.cardholderdb.user }}'@'%' IDENTIFIED BY '{{ .Values.mysql.cardholderdb.userPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.cardholderdb.name }}.* TO '{{ .Values.mysql.cardholderdb.user }}'@'%';
     FLUSH PRIVILEGES;
 
     -- card database
     DROP DATABASE IF EXISTS {{ .Values.mysql.carddb.name }};
-    DROP USER IF EXISTS `${CARD_ADMIN_USER}`@`%`;
-    DROP USER IF EXISTS `${CARD_USER}`@`%`;
+    DROP USER IF EXISTS '{{ .Values.mysql.carddb.adminUser }}'@'%';
+    DROP USER IF EXISTS '{{ .Values.mysql.carddb.user }}'@'%';
     CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.carddb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-    CREATE USER IF NOT EXISTS `${CARD_ADMIN_USER}`@`%` IDENTIFIED BY '${CARD_ADMIN_PASSWORD}';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.carddb.adminUser }}'@'%' IDENTIFIED BY '{{ .Values.mysql.carddb.adminPassword }}';
     GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
-      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.carddb.name }}.* TO `${CARD_ADMIN_USER}`@`%`;
-    CREATE USER IF NOT EXISTS `${CARD_USER}`@`%` IDENTIFIED BY '${CARD_USER_PASSWORD}';
-    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.carddb.name }}.* TO `${CARD_USER}`@`%`;
+    CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.carddb.name }}.* TO '{{ .Values.mysql.carddb.adminUser }}'@'%';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.carddb.user }}'@'%' IDENTIFIED BY '{{ .Values.mysql.carddb.userPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.carddb.name }}.* TO '{{ .Values.mysql.carddb.user }}'@'%';
     FLUSH PRIVILEGES;
 
     -- pan database
     DROP DATABASE IF EXISTS {{ .Values.mysql.pandb.name }};
-    DROP USER IF EXISTS `${PAN_ADMIN_USER}`@`%`;
-    DROP USER IF EXISTS `${PAN_USER}`@`%`;
+    DROP USER IF EXISTS '{{ .Values.mysql.pandb.adminUser }}'@'%';
+    DROP USER IF EXISTS '{{ .Values.mysql.pandb.user }}'@'%';
     CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.pandb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-    CREATE USER IF NOT EXISTS `${PAN_ADMIN_USER}`@`%` IDENTIFIED BY '${PAN_ADMIN_PASSWORD}';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.pandb.adminUser }}'@'%' IDENTIFIED BY '{{ .Values.mysql.pandb.adminPassword }}';
     GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
-      CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.pandb.name }}.* TO `${PAN_ADMIN_USER}`@`%`;
-    CREATE USER IF NOT EXISTS `${PAN_USER}`@`%` IDENTIFIED BY '${PAN_USER_PASSWORD}';
-    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.pandb.name }}.* TO `${PAN_USER}`@`%`;
+    CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.pandb.name }}.* TO '{{ .Values.mysql.pandb.adminUser }}'@'%';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.pandb.user }}'@'%' IDENTIFIED BY '{{ .Values.mysql.pandb.userPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.pandb.name }}.* TO '{{ .Values.mysql.pandb.user }}'@'%';
     FLUSH PRIVILEGES;
