@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "sdjpa-multi-db-mysql.fullname" . }}-mysql-init
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "sdjpa-multi-db-mysql.labels" . | nindent 4 }}
+data:
+  init.sql: |-
+    -- ## TODO ##
+    -- Die aktuelle Datenbank-Initialisierung erfolgt über SQL-Statements im ConfigMap.
+    -- Um Secrets und Umgebungsvariablen sicherer zu verwalten, soll die Initialisierung
+    -- in ein Bash-Script ausgelagert werden.
+
+    -- cardholder database:
+    DROP DATABASE IF EXISTS {{ .Values.mysql.cardholderdb.name }};
+    DROP USER IF EXISTS '{{ .Values.mysql.cardholderdb.adminUser }}'@'%';
+    DROP USER IF EXISTS '{{ .Values.mysql.cardholderdb.user }}'@'%';
+    CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.cardholderdb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.cardholderdb.adminUser }}'@'%' IDENTIFIED BY '{{ .Values.mysql.cardholderdb.adminPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
+    CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.cardholderdb.name }}.* TO '{{ .Values.mysql.cardholderdb.adminUser }}'@'%';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.cardholderdb.user }}'@'%' IDENTIFIED BY '{{ .Values.mysql.cardholderdb.userPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.cardholderdb.name }}.* TO '{{ .Values.mysql.cardholderdb.user }}'@'%';
+    FLUSH PRIVILEGES;
+
+    -- card database
+    DROP DATABASE IF EXISTS {{ .Values.mysql.carddb.name }};
+    DROP USER IF EXISTS '{{ .Values.mysql.carddb.adminUser }}'@'%';
+    DROP USER IF EXISTS '{{ .Values.mysql.carddb.user }}'@'%';
+    CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.carddb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.carddb.adminUser }}'@'%' IDENTIFIED BY '{{ .Values.mysql.carddb.adminPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
+    CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.carddb.name }}.* TO '{{ .Values.mysql.carddb.adminUser }}'@'%';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.carddb.user }}'@'%' IDENTIFIED BY '{{ .Values.mysql.carddb.userPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.carddb.name }}.* TO '{{ .Values.mysql.carddb.user }}'@'%';
+    FLUSH PRIVILEGES;
+
+    -- pan database
+    DROP DATABASE IF EXISTS {{ .Values.mysql.pandb.name }};
+    DROP USER IF EXISTS '{{ .Values.mysql.pandb.adminUser }}'@'%';
+    DROP USER IF EXISTS '{{ .Values.mysql.pandb.user }}'@'%';
+    CREATE DATABASE IF NOT EXISTS {{ .Values.mysql.pandb.name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.pandb.adminUser }}'@'%' IDENTIFIED BY '{{ .Values.mysql.pandb.adminPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, EXECUTE, CREATE VIEW, SHOW VIEW,
+    CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON {{ .Values.mysql.pandb.name }}.* TO '{{ .Values.mysql.pandb.adminUser }}'@'%';
+    CREATE USER IF NOT EXISTS '{{ .Values.mysql.pandb.user }}'@'%' IDENTIFIED BY '{{ .Values.mysql.pandb.userPassword }}';
+    GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON {{ .Values.mysql.pandb.name }}.* TO '{{ .Values.mysql.pandb.user }}'@'%';
+    FLUSH PRIVILEGES;

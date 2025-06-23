@@ -1,0 +1,32 @@
+global:
+  namespace: sdjpa-spring-data-rest
+
+mysql:
+  port: 3306
+  targetPort: 3306
+  nodePort: 30306
+
+  rootPassword: password
+
+  cardholderdb:
+    name: cardholderdb
+    adminUser: cardholderadmin
+    adminPassword: password
+    user: cardholderuser
+    userPassword: password
+
+  carddb:
+    name: carddb
+    adminUser: cardadmin
+    adminPassword: password
+    user: carduser
+    userPassword: password
+
+  pandb:
+    name: pandb
+    adminUser: panadmin
+    adminPassword: password
+    user: panuser
+    userPassword: password
+
+

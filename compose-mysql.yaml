@@ -3,6 +3,7 @@ services:
     container_name: mysql
     image: mysql:8.4.5
     environment:
+      # TODO: THIS IS WRONG. WE HAVE 3 DBs
       MYSQL_DATABASE: cardholderdb
       MYSQL_USER: user
       MYSQL_PASSWORD: password
