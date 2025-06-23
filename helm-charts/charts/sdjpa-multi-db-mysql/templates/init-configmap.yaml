@@ -7,7 +7,12 @@ metadata:
     {{- include "sdjpa-multi-db-mysql.labels" . | nindent 4 }}
 data:
   init.sql: |-
-    -- cardholder database
+    -- ## TODO ##
+    -- Die aktuelle Datenbank-Initialisierung erfolgt über SQL-Statements im ConfigMap.
+    -- Um Secrets und Umgebungsvariablen sicherer zu verwalten, soll die Initialisierung
+    -- in ein Bash-Script ausgelagert werden.
+
+    -- cardholder database:
     DROP DATABASE IF EXISTS {{ .Values.mysql.cardholderdb.name }};
     DROP USER IF EXISTS '{{ .Values.mysql.cardholderdb.adminUser }}'@'%';
     DROP USER IF EXISTS '{{ .Values.mysql.cardholderdb.user }}'@'%';
