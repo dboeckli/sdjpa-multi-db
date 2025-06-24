@@ -69,7 +69,7 @@ spec:
           echo "Exit code: $?"
 
           echo "### Test 4: MySQL Root Connection"
-                    mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
                 -P{{ .Values.mysql.port }} \
                 -uroot \
                 -p$MYSQL_ROOT_PASSWORD \
