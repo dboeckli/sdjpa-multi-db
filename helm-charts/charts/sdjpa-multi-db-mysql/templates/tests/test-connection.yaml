@@ -19,6 +19,7 @@ spec:
                 -P{{ .Values.mysql.port }} \
                 -u$CARDHOLDER_USER \
                 -p$CARDHOLDER_USER_PASSWORD \
+                --database={{ .Values.mysql.cardholderdb.name }} \
                 -e "SELECT 1; SELECT DATABASE();"
           echo "Exit code: $?"
 
@@ -27,6 +28,7 @@ spec:
                 -P{{ .Values.mysql.port }} \
                 -u$CARD_USER \
                 -p$CARD_USER_PASSWORD \
+                --database={{ .Values.mysql.carddb.name }} \
                 -e "SELECT 1; SELECT DATABASE();"
           echo "Exit code: $?"
 
@@ -35,6 +37,7 @@ spec:
                 -P{{ .Values.mysql.port }} \
                 -u$PAN_USER \
                 -p$PAN_USER_PASSWORD\
+                --database={{ .Values.mysql.pandb.name }} \
                 -e "SELECT 1; SELECT DATABASE();"
           echo "Exit code: $?"
 
