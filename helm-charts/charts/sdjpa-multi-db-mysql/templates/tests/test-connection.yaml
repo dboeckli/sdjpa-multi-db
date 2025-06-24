@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "sdjpa-multi-db-mysql.fullname" . }}-test-connection"
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "sdjpa-multi-db-mysql.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: test-mysql-connection
+      image: mysql:8.4.5
+      command: [ '/bin/sh', '-c' ]
+      args:
+        - |
+          echo "### Test 1: MySQL Connection using user: $CARDHOLDER_USER"
+          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+                -P{{ .Values.mysql.port }} \
+                -u$CARDHOLDER_USER \
+                -p$CARDHOLDER_USER_PASSWORD \
+                -e "SELECT 1; SELECT DATABASE();"
+          echo "Exit code: $?"
+
+          echo "### Test 2: MySQL Connection using user: $CARD_USER"
+          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+                -P{{ .Values.mysql.port }} \
+                -u$CARD_USER \
+                -p$CARD_USER_PASSWORD \
+                -e "SELECT 1; SELECT DATABASE();"
+          echo "Exit code: $?"
+
+          echo "### Test 3: MySQL Connection using user: $PAN_USER"
+          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+                -P{{ .Values.mysql.port }} \
+                -u$PAN_USER \
+                -p$PAN_USER_PASSWORD\
+                -e "SELECT 1; SELECT DATABASE();"
+          echo "Exit code: $?"
+
+          echo "### Test 4: MySQL Root Connection"
+          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+                -P{{ .Values.mysql.port }} \
+                -uroot \
+                -p$MYSQL_ROOT_PASSWORD \
+                -e "SHOW DATABASES;"
+          echo "Exit code: $?"
+      envFrom:
+        - secretRef:
+            name: {{ include "sdjpa-multi-db-mysql.fullname" . }}-secrets
+      env:
+        - name: MYSQL_CARDHOLDER_DB
+          value: {{ .Values.mysql.cardholderdb.name }}
+        - name: MYSQL_CARD_DB
+          value: {{ .Values.mysql.carddb.name }}
+        - name: MYSQL_PAN_DB
+          value: {{ .Values.mysql.pandb.name }}
+  restartPolicy: Never
