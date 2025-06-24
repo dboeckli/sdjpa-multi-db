@@ -69,11 +69,17 @@ spec:
           echo "Exit code: $?"
 
           echo "### Test 4: MySQL Root Connection"
-          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+                    mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
                 -P{{ .Values.mysql.port }} \
                 -uroot \
                 -p$MYSQL_ROOT_PASSWORD \
-                -e "SHOW DATABASES;"
+                -e "
+                SELECT user, host FROM mysql.user;
+                SELECT DISTINCT user, db, table_name, privilege_type
+                FROM information_schema.schema_privileges
+                JOIN mysql.user ON mysql.user.user = information_schema.schema_privileges.grantee;
+                SHOW DATABASES;"
+
           echo "Exit code: $?"
       envFrom:
         - secretRef:
