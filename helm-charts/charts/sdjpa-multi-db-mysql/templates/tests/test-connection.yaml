@@ -69,15 +69,15 @@ spec:
           echo "Exit code: $?"
 
           echo "### Test 4: MySQL Root Connection"
-                    echo "### Test 4: MySQL Root Connection"
           mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
                 -P{{ .Values.mysql.port }} \
                 -uroot \
                 -p$MYSQL_ROOT_PASSWORD \
                 -e "
                 SELECT user, host FROM mysql.user;
-                SELECT user, Db, table_name, privilege_type
-                FROM mysql.db LEFT JOIN mysql.tables_priv
+                SELECT mysql.db.user, mysql.db.Db, mysql.tables_priv.table_name, mysql.db.Select_priv, mysql.db.Insert_priv, mysql.db.Update_priv, mysql.db.Delete_priv
+                FROM mysql.db
+                LEFT JOIN mysql.tables_priv
                 ON mysql.db.user = mysql.tables_priv.user
                 AND mysql.db.Db = mysql.tables_priv.Db;
                 SHOW GRANTS FOR 'cardholderuser'@'%';
@@ -88,6 +88,7 @@ spec:
                 SHOW GRANTS FOR 'panadmin'@'%';
                 SHOW DATABASES;"
           echo "Exit code: $?"
+
       envFrom:
         - secretRef:
             name: {{ include "sdjpa-multi-db-mysql.fullname" . }}-secrets
