@@ -14,27 +14,57 @@ spec:
       command: [ '/bin/sh', '-c' ]
       args:
         - |
-          echo "### Test 1: MySQL Connection using user: $CARDHOLDER_USER"
+          echo "### Test 1a: MySQL Connection using user: $CARDHOLDER_USER"
           mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
                 -P{{ .Values.mysql.port }} \
                 -u$CARDHOLDER_USER \
                 -p$CARDHOLDER_USER_PASSWORD \
+                --database={{ .Values.mysql.cardholderdb.name }} \
                 -e "SELECT 1; SELECT DATABASE();"
           echo "Exit code: $?"
 
-          echo "### Test 2: MySQL Connection using user: $CARD_USER"
+          echo "### Test 1b: MySQL Connection using user: $CARDHOLDER_ADMIN_USER"
+          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+                -P{{ .Values.mysql.port }} \
+                -u$CARDHOLDER_ADMIN_USER \
+                -p$CARDHOLDER_ADMIN_PASSWORD \
+                --database={{ .Values.mysql.cardholderdb.name }} \
+                -e "SELECT 1; SELECT DATABASE();"
+          echo "Exit code: $?"
+
+          echo "### Test 2a: MySQL Connection using user: $CARD_USER"
           mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
                 -P{{ .Values.mysql.port }} \
                 -u$CARD_USER \
                 -p$CARD_USER_PASSWORD \
+                --database={{ .Values.mysql.carddb.name }} \
                 -e "SELECT 1; SELECT DATABASE();"
           echo "Exit code: $?"
 
-          echo "### Test 3: MySQL Connection using user: $PAN_USER"
+          echo "### Test 2b: MySQL Connection using user: $CARD_ADMIN_USER"
+          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+                -P{{ .Values.mysql.port }} \
+                -u$CARD_ADMIN_USER \
+                -p$CARD_ADMIN_PASSWORD \
+                --database={{ .Values.mysql.carddb.name }} \
+                -e "SELECT 1; SELECT DATABASE();"
+          echo "Exit code: $?"
+
+          echo "### Test 3a: MySQL Connection using user: $PAN_USER"
           mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
                 -P{{ .Values.mysql.port }} \
                 -u$PAN_USER \
                 -p$PAN_USER_PASSWORD\
+                --database={{ .Values.mysql.pandb.name }} \
+                -e "SELECT 1; SELECT DATABASE();"
+          echo "Exit code: $?"
+
+          echo "### Test 3b: MySQL Connection using user: $PAN_ADMIN_USER"
+          mysql -h{{ include "sdjpa-multi-db-mysql.fullname" . }} \
+                -P{{ .Values.mysql.port }} \
+                -u$PAN_ADMIN_USER \
+                -p$PAN_ADMIN_PASSWORD\
+                --database={{ .Values.mysql.pandb.name }} \
                 -e "SELECT 1; SELECT DATABASE();"
           echo "Exit code: $?"
 
@@ -43,8 +73,22 @@ spec:
                 -P{{ .Values.mysql.port }} \
                 -uroot \
                 -p$MYSQL_ROOT_PASSWORD \
-                -e "SHOW DATABASES;"
+                -e "
+                SELECT user, host FROM mysql.user;
+                SELECT mysql.db.user, mysql.db.Db, mysql.tables_priv.table_name, mysql.db.Select_priv, mysql.db.Insert_priv, mysql.db.Update_priv, mysql.db.Delete_priv
+                FROM mysql.db
+                LEFT JOIN mysql.tables_priv
+                ON mysql.db.user = mysql.tables_priv.user
+                AND mysql.db.Db = mysql.tables_priv.Db;
+                SHOW GRANTS FOR 'cardholderuser'@'%';
+                SHOW GRANTS FOR 'cardholderadmin'@'%';
+                SHOW GRANTS FOR 'carduser'@'%';
+                SHOW GRANTS FOR 'cardadmin'@'%';
+                SHOW GRANTS FOR 'panuser'@'%';
+                SHOW GRANTS FOR 'panadmin'@'%';
+                SHOW DATABASES;"
           echo "Exit code: $?"
+
       envFrom:
         - secretRef:
             name: {{ include "sdjpa-multi-db-mysql.fullname" . }}-secrets
