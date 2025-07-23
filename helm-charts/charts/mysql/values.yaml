@@ -29,4 +29,9 @@ mysql:
     user: panuser
     userPassword: password
 
+mysqlImage:
+  repository: mysql
+  tag: "8.4.6"
+  pullPolicy: IfNotPresent
+
 
