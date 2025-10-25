@@ -31,7 +31,7 @@ mysql:
 
 mysqlImage:
   repository: mysql
-  tag: "8.4.6"
+  tag: "8.4.7"
   pullPolicy: IfNotPresent
 
 
