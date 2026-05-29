@@ -1,6 +1,5 @@
 # Spring Data JPA Multiple Database Project
 
-This repository contains source code examples to support my course Spring Data JPA and Hibernate Beginner to Guru
 
 ## Multi-Database Configuration
 
