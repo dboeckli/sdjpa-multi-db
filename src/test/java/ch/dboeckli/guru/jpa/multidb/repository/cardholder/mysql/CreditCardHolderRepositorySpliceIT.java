@@ -16,11 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 @ActiveProfiles("test_mysql")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({
-    FlywayConfiguration.class,
-    CreditCardHolderDatabaseConfiguration.class
-})
+@Import({ FlywayConfiguration.class, CreditCardHolderDatabaseConfiguration.class })
 class CreditCardHolderRepositorySpliceIT {
+
     @Autowired
     CreditCardHolderRepository creditCardHolderRepository;
 
@@ -34,4 +32,5 @@ class CreditCardHolderRepositorySpliceIT {
 
         assertEquals(countAfter, countBefore + 1);
     }
+
 }

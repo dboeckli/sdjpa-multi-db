@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test_mysql")
 @Slf4j
 class CreditCardPanRepositoryIT {
+
     @Autowired
     CreditCardPanRepository creditCardPanRepository;
 
@@ -23,7 +24,8 @@ class CreditCardPanRepositoryIT {
     @Transactional
     void testSaveAndStoreCreditCard() {
         CreditCardPan saved = DataHelper.createAndSaveCreditCardPan(creditCardPanRepository);
-        CreditCardPan fetched = creditCardPanRepository.findById(saved.getId()).orElseThrow(() -> new AssertionError("Credit card not found"));
+        CreditCardPan fetched = creditCardPanRepository.findById(saved.getId())
+            .orElseThrow(() -> new AssertionError("Credit card not found"));
 
         assertThat(saved.getCreditCardNumber()).isEqualTo(fetched.getCreditCardNumber());
     }

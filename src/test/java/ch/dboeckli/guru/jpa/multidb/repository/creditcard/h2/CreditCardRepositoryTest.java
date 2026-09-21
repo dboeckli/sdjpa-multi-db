@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Slf4j
 class CreditCardRepositoryTest {
+
     @Autowired
     CreditCardRepository creditCardRepository;
 
@@ -21,8 +22,10 @@ class CreditCardRepositoryTest {
     @Transactional
     void testSaveAndStoreCreditCard() {
         CreditCard saved = DataHelper.createAndSaveCreditCard(creditCardRepository);
-        CreditCard fetched = creditCardRepository.findById(saved.getId()).orElseThrow(() -> new AssertionError("Credit card not found"));
+        CreditCard fetched = creditCardRepository.findById(saved.getId())
+            .orElseThrow(() -> new AssertionError("Credit card not found"));
 
         assertThat(saved.getCvv()).isEqualTo(fetched.getCvv());
     }
+
 }

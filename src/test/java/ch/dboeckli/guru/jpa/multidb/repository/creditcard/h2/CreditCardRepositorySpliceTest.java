@@ -24,4 +24,5 @@ class CreditCardRepositorySpliceTest {
 
         assertEquals(countAfter, countBefore + 1);
     }
+
 }

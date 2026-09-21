@@ -13,6 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CreditCardHolder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,4 +25,5 @@ public class CreditCardHolder {
     private String zipCode;
 
     private Long creditCardId;
+
 }

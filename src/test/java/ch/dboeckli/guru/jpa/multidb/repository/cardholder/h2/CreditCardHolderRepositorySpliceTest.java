@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 class CreditCardHolderRepositorySpliceTest {
+
     @Autowired
     CreditCardHolderRepository creditCardHolderRepository;
 
@@ -23,4 +24,5 @@ class CreditCardHolderRepositorySpliceTest {
 
         assertEquals(countAfter, countBefore + 1);
     }
+
 }

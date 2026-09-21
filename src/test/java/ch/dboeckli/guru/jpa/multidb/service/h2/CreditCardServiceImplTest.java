@@ -37,4 +37,5 @@ class CreditCardServiceImplTest {
         assertThat(fetchedCreditCard.getId()).isNotNull();
         assertThat(fetchedCreditCard.getCreditCardNumber()).isNotNull();
     }
+
 }

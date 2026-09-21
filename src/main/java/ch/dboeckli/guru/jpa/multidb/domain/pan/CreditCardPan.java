@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CreditCardPan {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,4 +20,5 @@ public class CreditCardPan {
     private String creditCardNumber;
 
     private Long creditCardId;
+
 }

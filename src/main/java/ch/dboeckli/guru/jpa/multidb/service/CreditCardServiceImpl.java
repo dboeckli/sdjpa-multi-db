@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreditCardServiceImpl implements CreditCardService {
 
     private final CreditCardHolderRepository creditCardHolderRepository;
+
     private final CreditCardRepository creditCardRepository;
+
     private final CreditCardPanRepository creditCardPanRepository;
 
     @Override
@@ -56,4 +58,5 @@ public class CreditCardServiceImpl implements CreditCardService {
 
         return savedCC;
     }
+
 }

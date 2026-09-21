@@ -18,12 +18,8 @@ class CreditCardHolderDatabaseConfigurationTest {
 
     @Test
     void testDatabasePropertiesExist() {
-        String[] requiredProperties = {
-            "spring.datasource.cardholder.url",
-            "spring.datasource.cardholder.username",
-            "spring.datasource.cardholder.password",
-            "spring.datasource.cardholder.hikari.poolName"
-        };
+        String[] requiredProperties = { "spring.datasource.cardholder.url", "spring.datasource.cardholder.username",
+                "spring.datasource.cardholder.password", "spring.datasource.cardholder.hikari.poolName" };
 
         for (String property : requiredProperties) {
             log.info("Property: {} has value {}", property, env.getProperty(property));
@@ -33,12 +29,8 @@ class CreditCardHolderDatabaseConfigurationTest {
 
     @Test
     void testDatabasePropertiesNotEmpty() {
-        String[] requiredProperties = {
-            "spring.datasource.cardholder.url",
-            "spring.datasource.cardholder.username",
-            "spring.datasource.cardholder.password",
-            "spring.datasource.cardholder.hikari.poolName"
-        };
+        String[] requiredProperties = { "spring.datasource.cardholder.url", "spring.datasource.cardholder.username",
+                "spring.datasource.cardholder.password", "spring.datasource.cardholder.hikari.poolName" };
 
         for (String property : requiredProperties) {
             String value = env.getProperty(property);

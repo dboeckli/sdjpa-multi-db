@@ -1,3 +1,6 @@
+nameOverride: "sdjpa-multi-db"
+fullnameOverride: "sdjpa-multi-db"
+
 global:
   timezone: Europe/Zurich
   timezonePath: /etc/localtime
@@ -44,6 +47,7 @@ probes:
     failureThreshold: 6
 
 mysql:
+  fullnameOverride: "sdjpa-multi-db-mysql"
   port: 3306
   targetPort: 3306
   nodePort: 30306
@@ -69,7 +73,7 @@ mysql:
     user: panuser
     userPassword: password
 
-  serviceFQDN:
+  serviceFQDN: "sdjpa-multi-db-mysql.sdjpa-multi-db.svc.cluster.local"
 
 ingress:
   enabled: false

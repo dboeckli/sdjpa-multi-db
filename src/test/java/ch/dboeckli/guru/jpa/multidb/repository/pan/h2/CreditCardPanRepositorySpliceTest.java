@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 class CreditCardPanRepositorySpliceTest {
+
     @Autowired
     CreditCardPanRepository creditCardPanRepository;
 
