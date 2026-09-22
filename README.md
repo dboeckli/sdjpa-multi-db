@@ -1,42 +1,107 @@
 # Spring Data JPA Multiple Database Project
 
+Spring Boot 4 / Spring Data JPA demo project on **Java 25** (enforced by the maven-enforcer plugin),
+demonstrating three independent databases in one application — `cardholderdb`, `carddb` and `pandb` —
+each with its own datasource configuration, entities, repositories and Flyway migrations, running
+against in-memory H2 or MySQL. A service layer coordinates the databases; PAN, CVV and expiration
+date are encrypted at rest. Deployment is via Docker image and Helm chart.
+
 ## Multi-Database Configuration
 
 This project is configured to work with three separate databases:
 
 1. Credit Card Holder Database
-2. Credit Card PAN (Primary Account Number) Database
-3. Credit Card Transaction Database
+2. Credit Card Database
+3. Credit Card PAN (Primary Account Number) Database
 
 Each database is configured independently, allowing for separate connection details, migration scripts, and entity management.
 
+## Architecture Overview
+
+```mermaid
+graph LR
+    Client(["Client"])
+
+    subgraph App ["Spring Boot App :8080"]
+        Service["CreditCardService\n(coordinates across DBs)"]
+        Repos["Spring Data JPA\nRepositories\n(one per database)"]
+        Encryption["EncryptionUtil\nPAN / CVV encryption"]
+    end
+
+    subgraph Domain ["Domain Model (one entity package per DB)"]
+        Holder["CreditCardHolder\ncardholderdb"]
+        Card["CreditCard\ncarddb\ncvv / expiration encrypted"]
+        Pan["CreditCardPan\npandb\nPAN encrypted"]
+    end
+
+    subgraph Migration ["Schema Management"]
+        Flyway["Flyway\none instance per datasource\ndb/migration/cardholder\ndb/migration/creditcard\ndb/migration/pan"]
+    end
+
+    subgraph Databases ["Databases"]
+        H2[("H2\nIn-Memory\n3 named DBs")]
+        MySQL[("MySQL\nDocker / Helm\n3 named DBs")]
+    end
+
+    Client -->|"REST / actuator :8080"| App
+    Service --> Repos
+    Service --> Encryption
+    Repos --> Domain
+    Repos <--> H2
+    Repos <--> MySQL
+    Flyway --> H2
+    Flyway --> MySQL
+```
+
+## Database Schema
+
+The three tables live in three independent databases: the `credit_card_id` columns are logical
+references (no physical FKs across database boundaries), coordinated by `CreditCardService`.
+
+```mermaid
+erDiagram
+    credit_card_holder {
+        BIGINT      id PK "auto_increment"
+        VARCHAR(30) first_name
+        VARCHAR(30) last_name
+        VARCHAR(10) zip_code
+        BIGINT      credit_card_id "logical ref - no FK"
+    }
+
+    credit_card {
+        BIGINT      id PK "auto_increment"
+        VARCHAR(30) cvv "encrypted"
+        VARCHAR(30) expiration_date "encrypted"
+    }
+
+    credit_card_pan {
+        BIGINT      id PK "auto_increment"
+        VARCHAR(30) credit_card_number "encrypted PAN"
+        BIGINT      credit_card_id "logical ref - no FK"
+    }
+
+    credit_card ||--o| credit_card_holder : "credit_card_id (logical)"
+    credit_card ||--o| credit_card_pan : "credit_card_id (logical)"
+```
+
 ## Flyway
 
-To enable Flyway in the MySQL profile, override the following properties when starting the application:
-- `spring.flyway.enabled = true`
-- `spring.docker.compose.file = compose-mysql.yaml`
-
-This profile starts MySQL on port 3306 using the Docker Compose file `compose-mysql-.yaml`.
+The `mysql` profile enables Flyway out of the box (`application-mysql.yaml`): each datasource runs its own
+migrations from `db/migration/{cardholder,creditcard,pan}`. MySQL is started automatically via the
+spring-boot-docker-compose integration using `compose-mysql.yaml` (port 3306) — no property overrides needed.
 
 ## Docker
 
-Docker Compose file initially use the startup script located in `src/scripts`. These scripts create the database and users.
+The Docker Compose file `compose-mysql.yaml` mounts the startup script `src/scripts/init-mysql.sql`,
+which creates the three databases (`cardholderdb`, `carddb`, `pandb`) and their users.
 
 ## Kubernetes
-
-### Generate Config Map for mysql init script
-
-When updating 'src/scripts/init-mysql-mysql.sql', apply the changes to the Kubernetes ConfigMap:
-
-```bash
-kubectl create configmap mysql-init-script --from-file=init.sql=src/scripts/init-mysql.sql --dry-run=client -o yaml | Out-File -Encoding utf8 k8s/mysql-init-script-configmap.yaml
-```
 
 ### Deployment with Helm
 
 Be aware that we are using a different namespace here (not default).
 
-Go to the directory where the tgz file has been created after 'mvn install'
+Go to the directory where the tgz file has been created after `./mvnw clean install`
 
 ```powershell
 cd target/helm/repo
@@ -53,7 +118,7 @@ install
 
 ```powershell
 $APPLICATION_NAME = Get-ChildItem -Directory | Where-Object { $_.LastWriteTime -ge $file.LastWriteTime } | Select-Object -ExpandProperty Name
-helm upgrade --install $APPLICATION_NAME ./$APPLICATION_NAME --namespace sdjpa-multi-db --create-namespace --wait --timeout 5m --debug
+helm upgrade --install $APPLICATION_NAME ./$APPLICATION_NAME --namespace sdjpa-multi-db --create-namespace --wait --timeout 8m --debug --render-subchart-notes
 ```
 
 show logs
@@ -104,7 +169,7 @@ create busybox sidecar
 kubectl run busybox-test --rm -it --image=busybox:1.36 --namespace=sdjpa-multi-db --command -- sh
 ```
 
-You can use the actuator rest call to verify via port 30080
+You can use the actuator rest calls (`restRequest/actuator.http`) to verify the app via port 30080
 
 ## Running the Application
 

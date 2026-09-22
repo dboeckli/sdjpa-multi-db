@@ -4,7 +4,7 @@ Spring Boot 4 (parent 4.1.1) / Spring Data JPA demo project on **Java 25** (enfo
 maven-enforcer plugin). Single Maven module, package `ch.dboeckli.guru.jpa.multidb`. It demonstrates
 **multiple independent databases** in one application — `cardholderdb`, `carddb` (credit card) and
 `pandb` — each with its own datasource configuration, entity package and repository package, against
-H2 (MySQL-compat mode) and MySQL, with schema management via **Flyway**. App port `8080`.
+H2 and MySQL, with schema management via **Flyway**. App port `8080`.
 
 ## Build & test commands
 
@@ -22,7 +22,7 @@ After changing code, always verify: run the relevant Maven goal above and report
 
 ## Profiles
 
-- `h2`: in-memory H2 in MySQL-compat mode (no Docker).
+- `h2`: in-memory H2 (no Docker).
 - `mysql`: MySQL via Docker Compose — `compose-mysql.yaml`; schema via Flyway
   (`db/migration/{cardholder,creditcard,pan}`).
 - IntelliJ run configs in `.run/`: `Spring6Application h2`, `Spring6Application mysql`,
@@ -46,7 +46,7 @@ is needed here. On a normal host (Windows/CI) this does not apply either.
 ## Test conventions
 
 - Naming matters: `*Test` = unit (surefire), `*IT` = integration (failsafe).
-- H2 tests: repository/service tests against in-memory H2 (MySQL-compat mode), including
+- H2 tests: repository/service tests against in-memory H2, including
   `*SpliceTest` variants.
 - MySQL ITs: `@ActiveProfiles("test_mysql")`; they need Docker (MySQL from the test profile).
 - A custom `TestClassOrderer` sorts test classes; `LocaleExtension` forces `Locale.US`.
