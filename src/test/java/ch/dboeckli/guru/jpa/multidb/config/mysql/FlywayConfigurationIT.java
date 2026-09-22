@@ -19,12 +19,8 @@ class FlywayConfigurationIT {
 
     @Test
     void cardFlywayDataSourceProps() {
-        String[] requiredProperties = {
-            "spring.flyway.card.url",
-            "spring.flyway.card.username",
-            "spring.flyway.card.password",
-            "spring.flyway.card.locations"
-        };
+        String[] requiredProperties = { "spring.flyway.card.url", "spring.flyway.card.username",
+                "spring.flyway.card.password", "spring.flyway.card.locations" };
 
         for (String property : requiredProperties) {
             log.info("Property: {} has value {}", property, env.getProperty(property));
@@ -34,12 +30,8 @@ class FlywayConfigurationIT {
 
     @Test
     void cardholderFlywayDataSourceProps() {
-        String[] requiredProperties = {
-            "spring.flyway.cardholder.url",
-            "spring.flyway.cardholder.username",
-            "spring.flyway.cardholder.password",
-            "spring.flyway.cardholder.locations"
-        };
+        String[] requiredProperties = { "spring.flyway.cardholder.url", "spring.flyway.cardholder.username",
+                "spring.flyway.cardholder.password", "spring.flyway.cardholder.locations" };
 
         for (String property : requiredProperties) {
             log.info("Property: {} has value {}", property, env.getProperty(property));
@@ -49,16 +41,13 @@ class FlywayConfigurationIT {
 
     @Test
     void panFlywayDataSourceProps() {
-        String[] requiredProperties = {
-            "spring.flyway.pan.url",
-            "spring.flyway.pan.username",
-            "spring.flyway.pan.password",
-            "spring.flyway.pan.locations"
-        };
+        String[] requiredProperties = { "spring.flyway.pan.url", "spring.flyway.pan.username",
+                "spring.flyway.pan.password", "spring.flyway.pan.locations" };
 
         for (String property : requiredProperties) {
             log.info("Property: {} has value {}", property, env.getProperty(property));
             assertNotNull(env.getProperty(property), "Property " + property + " should not be null");
         }
     }
+
 }

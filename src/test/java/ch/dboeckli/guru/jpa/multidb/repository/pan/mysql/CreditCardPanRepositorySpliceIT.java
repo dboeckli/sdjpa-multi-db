@@ -16,11 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 @ActiveProfiles("test_mysql")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({
-    FlywayConfiguration.class,
-    CreditCardPanDatabaseConfiguration.class
-})
+@Import({ FlywayConfiguration.class, CreditCardPanDatabaseConfiguration.class })
 class CreditCardPanRepositorySpliceIT {
+
     @Autowired
     CreditCardPanRepository creditCardPanRepository;
 

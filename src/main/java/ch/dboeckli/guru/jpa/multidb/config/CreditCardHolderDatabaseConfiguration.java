@@ -17,30 +17,27 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories(
-    basePackageClasses = CreditCardHolderRepository.class,
-    entityManagerFactoryRef = "cardholderEntityManagerFactory",
-    transactionManagerRef = "cardholderTransactionManager")
+@EnableJpaRepositories(basePackageClasses = CreditCardHolderRepository.class,
+        entityManagerFactoryRef = "cardholderEntityManagerFactory",
+        transactionManagerRef = "cardholderTransactionManager")
 public class CreditCardHolderDatabaseConfiguration {
 
     @Bean
     @ConfigurationProperties("spring.datasource.cardholder")
-    public DataSourceProperties cardHolderDataSourceProperties(){
+    public DataSourceProperties cardHolderDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean
     @ConfigurationProperties("spring.datasource.cardholder.hikari")
-    public DataSource cardholderDataSource(@Qualifier("cardHolderDataSourceProperties") DataSourceProperties cardHolderDataSourceProperties){
-        return cardHolderDataSourceProperties.initializeDataSourceBuilder()
-            .type(HikariDataSource.class)
-            .build();
+    public DataSource cardholderDataSource(
+            @Qualifier("cardHolderDataSourceProperties") DataSourceProperties cardHolderDataSourceProperties) {
+        return cardHolderDataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean cardholderEntityManagerFactory(
-        @Qualifier("cardholderDataSource") DataSource cardholderDataSource,
-        EntityManagerFactoryBuilder builder){
+            @Qualifier("cardholderDataSource") DataSource cardholderDataSource, EntityManagerFactoryBuilder builder) {
         return builder.dataSource(cardholderDataSource)
             .packages(CreditCardHolder.class)
             .persistenceUnit("cardholder")
@@ -49,8 +46,9 @@ public class CreditCardHolderDatabaseConfiguration {
 
     @Bean
     public PlatformTransactionManager cardholderTransactionManager(
-        @Qualifier("cardholderEntityManagerFactory") LocalContainerEntityManagerFactoryBean cardholderEntityManagerFactory){
+            @Qualifier("cardholderEntityManagerFactory") LocalContainerEntityManagerFactoryBean cardholderEntityManagerFactory) {
 
         return new JpaTransactionManager(cardholderEntityManagerFactory.getObject());
     }
+
 }

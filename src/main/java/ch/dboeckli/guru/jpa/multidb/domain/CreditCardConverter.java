@@ -6,6 +6,7 @@ import jakarta.persistence.Converter;
 
 @Converter
 public class CreditCardConverter implements AttributeConverter<String, String> {
+
     @Override
     public String convertToDatabaseColumn(String attribute) {
         return EncryptionUtil.encrypt(attribute);
@@ -15,4 +16,5 @@ public class CreditCardConverter implements AttributeConverter<String, String> {
     public String convertToEntityAttribute(String dbData) {
         return EncryptionUtil.decrypt(dbData);
     }
+
 }

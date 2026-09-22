@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test_mysql")
 @Slf4j
 class CreditCardRepositoryIT {
+
     @Autowired
     CreditCardRepository creditCardRepository;
 
@@ -23,8 +24,10 @@ class CreditCardRepositoryIT {
     @Transactional
     void testSaveAndStoreCreditCard() {
         CreditCard saved = DataHelper.createAndSaveCreditCard(creditCardRepository);
-        CreditCard fetched = creditCardRepository.findById(saved.getId()).orElseThrow(() -> new AssertionError("Credit card not found"));
+        CreditCard fetched = creditCardRepository.findById(saved.getId())
+            .orElseThrow(() -> new AssertionError("Credit card not found"));
 
         assertThat(saved.getCvv()).isEqualTo(fetched.getCvv());
     }
+
 }

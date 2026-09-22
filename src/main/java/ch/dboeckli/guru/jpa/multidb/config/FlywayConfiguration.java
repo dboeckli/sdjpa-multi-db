@@ -20,7 +20,7 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-@Profile({"mysql", "test_mysql"})
+@Profile({ "mysql", "test_mysql" })
 public class FlywayConfiguration {
 
     private final Environment env;
@@ -47,7 +47,8 @@ public class FlywayConfiguration {
             properties.add("locations=" + locations);
 
             if (url == null || username == null || password == null || locations == null) {
-                throw new IllegalStateException("Incomplete Flyway configuration for " + db + " database. Properties were " + properties);
+                throw new IllegalStateException(
+                        "Incomplete Flyway configuration for " + db + " database. Properties were " + properties);
             }
 
             String[] locationPaths = locations.split(",");
@@ -61,52 +62,51 @@ public class FlywayConfiguration {
 
     @Bean
     @ConfigurationProperties("spring.flyway.card")
-    public DataSourceProperties cardFlywayDataSourceProps(){
+    public DataSourceProperties cardFlywayDataSourceProps() {
         return new DataSourceProperties();
     }
 
     @Bean(initMethod = "migrate")
     public Flyway flywayCard(@Qualifier("cardFlywayDataSourceProps") DataSourceProperties cardFlywayDataSourceProps,
-                             @Value("${spring.flyway.card.locations}") String locations) {
+            @Value("${spring.flyway.card.locations}") String locations) {
         return Flyway.configure()
-            .dataSource(cardFlywayDataSourceProps.getUrl(),
-                cardFlywayDataSourceProps.getUsername(),
-                cardFlywayDataSourceProps.getPassword())
+            .dataSource(cardFlywayDataSourceProps.getUrl(), cardFlywayDataSourceProps.getUsername(),
+                    cardFlywayDataSourceProps.getPassword())
             .locations(locations)
             .load();
     }
 
     @Bean
     @ConfigurationProperties("spring.flyway.cardholder")
-    public DataSourceProperties cardholderFlywayDataSourceProps(){
+    public DataSourceProperties cardholderFlywayDataSourceProps() {
         return new DataSourceProperties();
     }
 
     @Bean(initMethod = "migrate")
-    public Flyway flywayCardHolder(@Qualifier("cardholderFlywayDataSourceProps") DataSourceProperties cardholderFlywayDataSourceProps,
-                                   @Value("${spring.flyway.cardholder.locations}") String locations) {
+    public Flyway flywayCardHolder(
+            @Qualifier("cardholderFlywayDataSourceProps") DataSourceProperties cardholderFlywayDataSourceProps,
+            @Value("${spring.flyway.cardholder.locations}") String locations) {
         return Flyway.configure()
-            .dataSource(cardholderFlywayDataSourceProps.getUrl(),
-                cardholderFlywayDataSourceProps.getUsername(),
-                cardholderFlywayDataSourceProps.getPassword())
+            .dataSource(cardholderFlywayDataSourceProps.getUrl(), cardholderFlywayDataSourceProps.getUsername(),
+                    cardholderFlywayDataSourceProps.getPassword())
             .locations(locations)
             .load();
     }
 
     @Bean
     @ConfigurationProperties("spring.flyway.pan")
-    public DataSourceProperties panFlywayDataSourceProps(){
+    public DataSourceProperties panFlywayDataSourceProps() {
         return new DataSourceProperties();
     }
 
     @Bean(initMethod = "migrate")
     public Flyway flywayPan(@Qualifier("panFlywayDataSourceProps") DataSourceProperties panFlywayDataSourceProps,
-                            @Value("${spring.flyway.pan.locations}") String locations) {
+            @Value("${spring.flyway.pan.locations}") String locations) {
         return Flyway.configure()
-            .dataSource(panFlywayDataSourceProps.getUrl(),
-                panFlywayDataSourceProps.getUsername(),
-                panFlywayDataSourceProps.getPassword())
+            .dataSource(panFlywayDataSourceProps.getUrl(), panFlywayDataSourceProps.getUsername(),
+                    panFlywayDataSourceProps.getPassword())
             .locations(locations)
             .load();
     }
+
 }

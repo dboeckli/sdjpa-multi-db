@@ -18,12 +18,8 @@ class CreditCardPanDatabaseConfigurationTest {
 
     @Test
     void testDatabasePropertiesExist() {
-        String[] requiredProperties = {
-            "spring.datasource.pan.url",
-            "spring.datasource.pan.username",
-            "spring.datasource.pan.password",
-            "spring.datasource.pan.hikari.poolName"
-        };
+        String[] requiredProperties = { "spring.datasource.pan.url", "spring.datasource.pan.username",
+                "spring.datasource.pan.password", "spring.datasource.pan.hikari.poolName" };
 
         for (String property : requiredProperties) {
             log.info("Property: {} has value {}", property, env.getProperty(property));
@@ -33,12 +29,8 @@ class CreditCardPanDatabaseConfigurationTest {
 
     @Test
     void testDatabasePropertiesNotEmpty() {
-        String[] requiredProperties = {
-            "spring.datasource.pan.url",
-            "spring.datasource.pan.username",
-            "spring.datasource.pan.password",
-            "spring.datasource.pan.hikari.poolName"
-        };
+        String[] requiredProperties = { "spring.datasource.pan.url", "spring.datasource.pan.username",
+                "spring.datasource.pan.password", "spring.datasource.pan.hikari.poolName" };
 
         for (String property : requiredProperties) {
             String value = env.getProperty(property);
